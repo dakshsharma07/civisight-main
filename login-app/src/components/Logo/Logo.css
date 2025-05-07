@@ -1,0 +1,45 @@
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 100%;
+  height: auto;
+  transition: transform 0.2s ease;
+  object-fit: contain;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* Size variations */
+.logo.small {
+  width: 24px;
+  height: 24px;
+}
+
+.logo.medium {
+  width: 48px;
+  height: 48px;
+}
+
+.logo.large {
+  width: 96px;
+  height: 96px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .logo.medium {
+    width: 36px;
+    height: 36px;
+  }
+
+  .logo.large {
+    width: 72px;
+    height: 72px;
+  }
+}
