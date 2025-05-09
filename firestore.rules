@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    //–– Helper functions ––//
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.admin == true;
+    }
+    function isOwnUser(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    
+    // Validate task document shape
+    function validTaskCreate() {
+      let data = request.resource.data;
+      return data.keys().hasOnly([
+        'title', 'countyId', 'assignedTo', 'deadline', 'status',
+        'reminderFrequency', 'createdBy', 'createdAt', 'updatedAt'
+      ])
+      && data.title is string && data.title.size() <= 200
+      && data.countyId is string
+      && data.assignedTo is list && data.assignedTo.size() > 0
+      && data.deadline is timestamp
+      && data.status in ['Not Started', 'In Progress', 'Completed', 'Overdue']
+      && data.reminderFrequency in ['Daily', 'Weekly', 'Bi-weekly', 'Monthly']
+      && data.createdBy == request.auth.uid
+      && data.createdAt == request.time
+      && data.updatedAt == request.time;
+    }
+
+    function validTaskUpdate() {
+      let data = request.resource.data;
+      return data.keys().hasOnly([
+        'title', 'status', 'updatedAt'
+      ])
+      && data.title is string && data.title.size() <= 200
+      && data.status in ['Not Started', 'In Progress', 'Completed', 'Overdue']
+      && data.updatedAt == request.time;
+    }
+    
+    //–– User profiles ––//
+    match /users/{userId} {
+      allow create: if isSignedIn() && validUserCreate();
+      allow read: if isSignedIn();
+      allow update: if isSignedIn() && validUserUpdate();
+      allow delete: if isSignedIn();
+    }
+    
+    //–– Tasks ––//
+    match /tasks/{taskId} {
+      // Allow read if user is signed in
+      allow read: if isSignedIn();
+      
+      // Allow create if user is signed in
+      allow create: if isSignedIn();
+      
+      // Allow update if user is signed in
+      allow update: if isSignedIn();
+      
+      // Allow delete if user is signed in
+      allow delete: if isSignedIn();
+    }
+    
+    //–– Public content ––//
+    match /public/{doc=**} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && validPublicWrite();
+    }
+    
+    //–– All other documents are off‐limits by default ––//
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+} 
