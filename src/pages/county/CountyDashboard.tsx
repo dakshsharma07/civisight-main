@@ -9,8 +9,7 @@ import { auth } from '../../firebase/config';
 import ProfileSection from './ProfileSection';
 import ObligationsSection from './ObligationsSection';
 import FormsSection from './FormsSection';
-import TasksSection from './TasksSection';
-import ReminderSection from './ReminderSection';
+import InitiativesSection from './InitiativesSection';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface NavItem {
@@ -20,12 +19,110 @@ interface NavItem {
 }
 
 const countyNavItems: NavItem[] = [
-  { name: 'Profile', path: '/dashboard/profile', icon: '👤' },
-  { name: 'Tasks', path: '/dashboard/tasks', icon: '✓' },
-  { name: 'Obligations', path: '/dashboard/obligations', icon: '📋' },
-  { name: 'Forms', path: '/dashboard/forms', icon: '📝' },
-  { name: 'Reminders', path: '/dashboard/reminders', icon: '🔔' }
+  { name: 'Profile', path: '/county-dashboard/profile', icon: '👤' },
+  { name: 'Obligations', path: '/county-dashboard/obligations', icon: '📋' },
+  { name: 'Forms', path: '/county-dashboard/forms', icon: '📝' },
+  { name: 'Initiatives', path: '/county-dashboard/initiatives', icon: '🎯' }
 ];
+
+const CivioAssistant: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<Array<{ text: string; isUser: boolean }>>([
+    { text: "Hi! I'm Civio, your county management assistant. How can I help you today?", isUser: false }
+  ]);
+  const [inputMessage, setInputMessage] = useState('');
+
+  const handleSendMessage = () => {
+    if (!inputMessage.trim()) return;
+
+    // Add user message
+    setMessages(prev => [...prev, { text: inputMessage, isUser: true }]);
+    setInputMessage('');
+
+    // Simulate assistant response (this will be replaced with actual LLM integration)
+    setTimeout(() => {
+      setMessages(prev => [...prev, {
+        text: "I'm here to help! This feature will be enhanced with AI capabilities soon.",
+        isUser: false
+      }]);
+    }, 1000);
+  };
+
+  return (
+    <div className="fixed bottom-4 left-4 z-50">
+      {/* Chat Window */}
+      {isOpen && (
+        <div className="mb-4 w-72 bg-white rounded-lg shadow-xl border border-gray-200">
+          {/* Chat Header */}
+          <div className="p-3 border-b border-gray-200 bg-indigo-600 text-white rounded-t-lg">
+            <div className="flex items-center">
+              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-indigo-600 font-bold text-lg">
+                C
+              </div>
+              <h3 className="ml-3 text-lg font-medium">Civio</h3>
+            </div>
+          </div>
+
+          {/* Chat Messages */}
+          <div className="h-64 overflow-y-auto p-3 space-y-3">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+              >
+                <div
+                  className={`max-w-[85%] rounded-lg px-3 py-2 text-sm ${
+                    message.isUser
+                      ? 'bg-indigo-600 text-white'
+                      : 'bg-gray-100 text-gray-800'
+                  }`}
+                >
+                  {message.text}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Chat Input */}
+          <div className="p-3 border-t border-gray-200">
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                placeholder="Type your message..."
+                className="flex-1 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <button
+                onClick={handleSendMessage}
+                className="bg-indigo-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-indigo-700 transition-colors"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Chat Toggle Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-16 h-16 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 transition-colors flex items-center justify-center"
+      >
+        {isOpen ? (
+          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        ) : (
+          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+          </svg>
+        )}
+      </button>
+    </div>
+  );
+};
 
 // CountyDashboard Component Definition
 // Manages county dashboard state and functionality
@@ -89,10 +186,10 @@ const CountyDashboard: React.FC = () => {
               <img
                 src="/CiviSight Logo w:o name.png"
                 alt="CiviSight Logo"
-                className="h-8 w-auto"
+                className="h-12 w-auto"
               />
               <h1 className={`ml-4 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                {isStateAgency ? 'State Agency Portal' : 'County Portal'}
+                Compliance Portal
               </h1>
             </div>
             <div className="flex items-center space-x-4">
@@ -118,18 +215,6 @@ const CountyDashboard: React.FC = () => {
                 )}
               </button>
 
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="sr-only peer"
-                  checked={isStateAgency}
-                  onChange={() => setIsStateAgency(!isStateAgency)}
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                <span className={`ml-3 text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                  {isStateAgency ? 'State Agency View' : 'County View'}
-                </span>
-              </label>
               <button
                 onClick={handleSignOut}
                 className={`px-4 py-2 text-sm font-medium ${
@@ -179,15 +264,32 @@ const CountyDashboard: React.FC = () => {
           <div className="flex-1">
             <Routes>
               <Route path="profile" element={<ProfileSection />} />
-              <Route path="tasks" element={<TasksSection />} />
               <Route path="obligations" element={<ObligationsSection />} />
               <Route path="forms" element={<FormsSection />} />
-              <Route path="reminders" element={<ReminderSection />} />
+              <Route path="initiatives" element={<InitiativesSection />} />
               <Route path="/" element={<ProfileSection />} />
             </Routes>
           </div>
         </div>
+
+        {/* State Agency Dashboard Link */}
+        <div className="mt-8 text-center">
+          <Link
+            to="/dashboard"
+            className={`inline-flex items-center px-4 py-2 rounded-md transition-colors ${
+              isDarkMode 
+                ? 'text-indigo-400 hover:text-indigo-300' 
+                : 'text-indigo-600 hover:text-indigo-700'
+            }`}
+          >
+            <span className="mr-2">🏛️</span>
+            Switch to State Agency Dashboard
+          </Link>
+        </div>
       </div>
+
+      {/* Add Civio Assistant */}
+      <CivioAssistant />
     </div>
   );
 };

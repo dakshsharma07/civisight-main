@@ -57,13 +57,14 @@ const App: React.FC = () => {
           <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Login />} />
           <Route path="/signup" element={user ? <Navigate to="/dashboard" /> : <SignUp />} />
           <Route 
-            path="/dashboard" 
+            path="/dashboard/*" 
             element={
               <ProtectedRoute>
                 {userType === 'county' ? <CountyDashboard /> : <StateAgencyDashboard />}
               </ProtectedRoute>
             } 
           />
+          <Route path="/county-dashboard/*" element={<CountyDashboard />} />
         </Routes>
       </Router>
     </AuthProvider>

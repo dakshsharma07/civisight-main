@@ -568,20 +568,20 @@ const StateAgencyDashboard: React.FC = () => {
 
   // Main UI Structure
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+    <div className={`min-h-screen antialiased ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Header Component */}
       <header className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Association of County Commissioners of Georgia</h1>
-              <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}>County Management & Compliance Portal</p>
+              <h1 className={`text-[28px] font-semibold leading-[1.5] ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Association of County Commissioners of Georgia</h1>
+              <p className={`text-base leading-[1.5] ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}>County Management & Compliance Portal</p>
             </div>
             <div className="flex items-center space-x-4">
               {/* Dark Mode Toggle */}
               <button
                 onClick={toggleDarkMode}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full shadow-lg transition-all duration-200 ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-[4px] transition-all duration-200 ${
                   isDarkMode 
                     ? 'bg-gray-700 text-white hover:bg-gray-600' 
                     : 'bg-white text-gray-800 hover:bg-gray-100 border border-gray-200'
@@ -602,7 +602,7 @@ const StateAgencyDashboard: React.FC = () => {
 
               <button 
                 onClick={() => setShowGlobalTaskModal(true)}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+                className="px-4 py-2 bg-indigo-600 text-white rounded-[4px] hover:bg-indigo-700 transition-colors"
               >
                 <span className="flex items-center">
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -613,11 +613,11 @@ const StateAgencyDashboard: React.FC = () => {
               </button>
               <button
                 onClick={handleSignOut}
-                className={`px-4 py-2 text-sm font-medium ${
+                className={`px-4 py-2 text-base ${
                   isDarkMode 
                     ? 'text-white bg-gray-700 hover:bg-gray-600' 
                     : 'text-gray-700 bg-white hover:bg-gray-50'
-                } border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                } border border-gray-200 rounded-[4px] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
               >
                 Sign Out
               </button>
@@ -631,7 +631,7 @@ const StateAgencyDashboard: React.FC = () => {
         {/* Tabs Navigation */}
         <div className={`border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} mb-8`}>
           <nav className="-mb-px flex space-x-8">
-            {['overview', 'counties', 'tasks'].map((tab) => (
+            {['overview', 'tasks'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -643,7 +643,7 @@ const StateAgencyDashboard: React.FC = () => {
                     : isDarkMode
                       ? 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm capitalize`}
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base capitalize`}
               >
                 {tab}
               </button>
@@ -652,87 +652,68 @@ const StateAgencyDashboard: React.FC = () => {
         </div>
 
         {/* Statistics Overview */}
-        {!selectedCounty && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm p-6 border hover:shadow-md transition-shadow`}>
+        {!selectedCounty && activeTab === 'overview' && (
+          <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-[4px] border ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} p-6 mb-8`}>
+            <dl className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="flex items-center">
-                <div className="p-3 rounded-full bg-indigo-100 text-indigo-600">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <div className="ml-4">
-                  <h3 className={`text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Total Counties</h3>
-                  <p className={`text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} mt-1`}>{counties.length}</p>
+                <div>
+                  <dt className={`text-base ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Total Counties</dt>
+                  <dd className={`text-[28px] font-semibold leading-[1.5] ${isDarkMode ? 'text-white' : 'text-gray-900'} mt-1`}>{counties.length}</dd>
                 </div>
               </div>
-            </div>
-            <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm p-6 border hover:shadow-md transition-shadow`}>
+
               <div className="flex items-center">
-                <div className="p-3 rounded-full bg-green-100 text-green-600">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                  </svg>
-                </div>
-                <div className="ml-4">
-                  <h3 className={`text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Active Tasks</h3>
-                  <p className={`text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} mt-1`}>
+                <div>
+                  <dt className={`text-base ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Active Tasks</dt>
+                  <dd className={`text-[28px] font-semibold leading-[1.5] ${isDarkMode ? 'text-white' : 'text-gray-900'} mt-1`}>
                     {counties.reduce((acc, county) => acc + county.tasks.length, 0)}
-                  </p>
+                  </dd>
                 </div>
               </div>
-            </div>
-            <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm p-6 border hover:shadow-md transition-shadow`}>
+
               <div className="flex items-center">
-                <div className="p-3 rounded-full bg-yellow-100 text-yellow-600">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
-                <div className="ml-4">
-                  <h3 className={`text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Average Completion</h3>
-                  <p className={`text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} mt-1`}>
+                <div>
+                  <dt className={`text-base ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Average Completion</dt>
+                  <dd className={`text-[28px] font-semibold leading-[1.5] ${isDarkMode ? 'text-white' : 'text-gray-900'} mt-1`}>
                     {Math.round(counties.reduce((acc, county) => acc + county.completionRate, 0) / counties.length)}%
-                  </p>
+                  </dd>
                 </div>
               </div>
-            </div>
-            <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm p-6 border hover:shadow-md transition-shadow`}>
+
               <div className="flex items-center">
-                <div className="p-3 rounded-full bg-purple-100 text-purple-600">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <div className="ml-4">
-                  <h3 className={`text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Total Population</h3>
-                  <p className={`text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} mt-1`}>
-                    {counties.reduce((acc, county) => acc + county.population, 0).toLocaleString()}
-                  </p>
+                <div>
+                  <dt className={`text-base ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Overdue Tasks</dt>
+                  <dd className={`text-[28px] font-semibold leading-[1.5] ${isDarkMode ? 'text-white' : 'text-gray-900'} mt-1`}>
+                    {counties.reduce((acc, county) => 
+                      acc + county.tasks.filter(task => 
+                        task.status !== 'completed' && new Date(task.deadline) < new Date()
+                      ).length, 0
+                    )}
+                  </dd>
                 </div>
               </div>
-            </div>
+            </dl>
           </div>
         )}
 
         {/* County Grid */}
-        {activeTab !== 'tasks' && (
-          <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm border`}>
+        {activeTab === 'overview' && (
+          <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-[4px] border`}>
             <div className={`px-6 py-4 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>County Management</h2>
-                  <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}>Select a county to view and manage tasks</p>
+                  <h2 className={`text-[20px] font-medium leading-[1.5] ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>County Management</h2>
+                  <p className={`text-base leading-[1.5] ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}>Select a county to view and manage tasks</p>
                 </div>
                 <div className="flex space-x-3">
                   <div className="relative">
                     <input
                       type="text"
                       placeholder="Search counties..."
-                      className={`w-64 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+                      className={`w-64 px-4 py-2 rounded-[4px] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
                         isDarkMode 
                           ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                          : 'border border-gray-300'
+                          : 'border border-gray-200'
                       }`}
                       value={countySearch}
                       onChange={(e) => setCountySearch(e.target.value)}
@@ -741,7 +722,7 @@ const StateAgencyDashboard: React.FC = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </div>
-                  <button className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
+                  <button className="px-4 py-2 bg-indigo-600 text-white rounded-[4px] hover:bg-indigo-700 transition-colors">
                     Export Data
                   </button>
                 </div>
@@ -752,27 +733,20 @@ const StateAgencyDashboard: React.FC = () => {
             <div className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {counties.map((county) => {
-                  // Count active tasks (excluding completed ones)
                   const activeTaskCount = county.tasks.filter(task => task.status !== 'completed').length;
                   
                   return (
                     <div
                       key={county.id}
-                      className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-50 hover:bg-gray-100'} rounded-lg border ${isDarkMode ? 'border-gray-600' : 'border-gray-200'} p-6 hover:border-indigo-500 hover:shadow-md transition-all cursor-pointer`}
+                      className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-50 hover:bg-gray-100'} rounded-[4px] border ${isDarkMode ? 'border-gray-600' : 'border-gray-200'} p-6 hover:border-indigo-500 transition-all cursor-pointer`}
                       onClick={() => handleCountySelect(county)}
                     >
                       <div className="flex justify-between items-start">
                         <div>
-                          <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{county.name}</h3>
-                          <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{county.region}</p>
+                          <h3 className={`text-[20px] font-medium leading-[1.5] ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{county.name}</h3>
+                          <p className={`text-base leading-[1.5] ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{county.region}</p>
                           <div className="mt-4 space-y-2">
-                            <div className={`flex items-center text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                              </svg>
-                              Population: {county.population.toLocaleString()}
-                            </div>
-                            <div className={`flex items-center text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                            <div className={`flex items-center text-base leading-[1.5] ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                               </svg>
@@ -781,14 +755,14 @@ const StateAgencyDashboard: React.FC = () => {
                           </div>
                         </div>
                         <div className="flex flex-col items-end">
-                          <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+                          <span className={`px-3 py-1 text-base font-regular rounded-full ${
                             county.completionRate >= 75 ? 'bg-green-100 text-green-800' :
                             county.completionRate >= 50 ? 'bg-yellow-100 text-yellow-800' :
                             'bg-red-100 text-red-800'
                           }`}>
                             {county.completionRate}% Complete
                           </span>
-                          <button className={`mt-3 text-sm font-medium ${isDarkMode ? 'text-indigo-400 hover:text-indigo-300' : 'text-indigo-600 hover:text-indigo-500'}`}>
+                          <button className={`mt-3 text-base font-regular ${isDarkMode ? 'text-indigo-400 hover:text-indigo-300' : 'text-indigo-600 hover:text-indigo-500'}`}>
                             View Details
                           </button>
                         </div>
@@ -803,23 +777,23 @@ const StateAgencyDashboard: React.FC = () => {
 
         {/* Tasks Tab */}
         {activeTab === 'tasks' && (
-          <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm border`}>
+          <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-[4px] border`}>
             <div className={`px-6 py-4 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>All Tasks</h2>
-                  <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}>View and manage all tasks across counties</p>
+                  <h2 className={`text-[20px] font-medium leading-[1.5] ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>All Tasks</h2>
+                  <p className={`text-base leading-[1.5] ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}>View and manage all tasks across counties</p>
                 </div>
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
-                    <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Sort by:</span>
+                    <span className={`text-base leading-[1.5] ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Sort by:</span>
                     <select
                       value={taskSortBy}
                       onChange={(e) => setTaskSortBy(e.target.value as 'deadline' | 'counties')}
-                      className={`rounded-md border ${
+                      className={`rounded-[4px] border ${
                         isDarkMode 
                           ? 'bg-gray-700 border-gray-600 text-white' 
-                          : 'border-gray-300'
+                          : 'border-gray-200'
                       } focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                     >
                       <option value="deadline">Deadline</option>
@@ -835,27 +809,27 @@ const StateAgencyDashboard: React.FC = () => {
                 {getSortedTasks().map((task) => (
                   <div
                     key={task.id}
-                    className={`${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'} rounded-lg border ${
+                    className={`${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'} rounded-[4px] border ${
                       isDarkMode ? 'border-gray-600' : 'border-gray-200'
                     } p-6 hover:shadow-md transition-shadow`}
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
-                        <h3 className={`text-lg font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <h3 className={`text-[20px] font-medium leading-[1.5] ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                           {task.title}
                         </h3>
-                        <p className={`mt-1 text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+                        <p className={`mt-1 text-base leading-[1.5] ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>
                           {task.description}
                         </p>
                         <div className="mt-4">
-                          <h4 className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                          <h4 className={`text-base font-regular leading-[1.5] ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                             Assigned Counties:
                           </h4>
                           <div className="mt-2 flex flex-wrap gap-2">
                             {task.assignedCounties?.map((county: AssignedCounty) => (
                               <span
                                 key={county.id}
-                                className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                                className={`inline-flex items-center px-3 py-1 rounded-full text-base font-regular ${
                                   isDarkMode 
                                     ? 'bg-indigo-900 text-indigo-200' 
                                     : 'bg-indigo-100 text-indigo-800'
@@ -874,7 +848,7 @@ const StateAgencyDashboard: React.FC = () => {
                               setSelectedTask(task);
                               setShowReminderModal(true);
                             }}
-                            className={`text-sm font-medium ${
+                            className={`text-base font-regular ${
                               isDarkMode 
                                 ? 'text-indigo-400 hover:text-indigo-300' 
                                 : 'text-indigo-600 hover:text-indigo-500'
@@ -888,7 +862,7 @@ const StateAgencyDashboard: React.FC = () => {
                                 handleDeleteTask(task.id);
                               }
                             }}
-                            className={`text-sm font-medium ${
+                            className={`text-base font-regular ${
                               isDarkMode 
                                 ? 'text-red-400 hover:text-red-300' 
                                 : 'text-red-600 hover:text-red-500'
@@ -898,7 +872,7 @@ const StateAgencyDashboard: React.FC = () => {
                           </button>
                         </div>
                         <div className="flex flex-col items-end space-y-2">
-                          <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+                          <span className={`px-3 py-1 text-base font-regular rounded-full ${
                             task.status === 'completed' 
                               ? 'bg-green-100 text-green-800' 
                               : task.status === 'in_progress' 
@@ -907,10 +881,10 @@ const StateAgencyDashboard: React.FC = () => {
                           }`}>
                             {task.status}
                           </span>
-                          <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                          <span className={`text-base leading-[1.5] ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                             Deadline: {new Date(task.deadline).toLocaleDateString()}
                           </span>
-                          <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                          <span className={`text-base leading-[1.5] ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                             Priority: {task.priority}
                           </span>
                         </div>
@@ -928,6 +902,27 @@ const StateAgencyDashboard: React.FC = () => {
           </div>
         )}
       </main>
+
+      {/* Footer */}
+      <footer className={`mt-auto border-t ${isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex justify-between items-center">
+            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+              © 2024 CiviSight. All rights reserved.
+            </p>
+            <button
+              onClick={() => navigate('/county-dashboard')}
+              className={`text-sm px-4 py-2 rounded-[4px] transition-colors ${
+                isDarkMode 
+                  ? 'text-indigo-400 hover:text-indigo-300 hover:bg-gray-700' 
+                  : 'text-indigo-600 hover:text-indigo-500 hover:bg-gray-50'
+              }`}
+            >
+              Switch to County Dashboard
+            </button>
+          </div>
+        </div>
+      </footer>
 
       {/* Modal Components */}
       {/* Various modals for task creation and management */}
